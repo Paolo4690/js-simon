@@ -8,26 +8,44 @@ let randomNumber = [];
 let arrUser = [];
 let indovinati = [];
 
-let tempoAttesaRimozione = 5000;
-let timerAttesaPrompt = 8000;
+let tempoAttesaRimozione = 8000;
+let timerAttesaPrompt = 500;
 
 generateNumber(5);
 console.log(randomNumber);
 printNumber();
 let timerRimozione = setInterval(removeNumber, tempoAttesaRimozione);
-setTimeout(askNumber, timerAttesaPrompt);
 
 
 
-// FUNZIONE CHE CONTROLLA SE I NUMERI INSERITI SONO GIUSTI
-function control() {
-    for(let i = 0; i <= arrUser.length; i++) {
-        if (randomNumber.includes(arrUser[i])) {
-            indovinati.push(arrUser[i])
+// FUNZIONE CHE METTE IN ARRAY NUMERI RANDOM UNICI
+function generateNumber(num) {
+    randomNumber = []
+    for (let i = 0; randomNumber.length < num; i++) {
+        let random = getRndInteger(1, 100)
+
+        if (!randomNumber.includes(random)) {
+            randomNumber.push(random)
         }
     }
-    console.log(indovinati)
-    numeri.innerHTML = 'Hai indovinato ' + indovinati.length + 'numeri: ' + indovinati;
+}
+
+// FUNZIONE CHE GENERA NUMERI RANDOM 
+function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min) ) + min;
+}
+
+// FUNZIONE CHE STAMPA I NUMERI 
+function printNumber() {
+    numeri.innerHTML = 'I numeri da ricordare sono: ' + randomNumber
+}
+
+// FUNZIONE CHE RIMUOVE I NUMERI STAMPATI
+function removeNumber () {
+    numeri.innerHTML = '';
+    clearInterval(timerRimozione);
+    console.log('cleartimer')
+    setTimeout(askNumber, timerAttesaPrompt);
 }
 
 // FUNZIONE CHE CHIEDE I NUMERI ALL'UTENTE E LI CONTROLLA
@@ -43,31 +61,13 @@ function askNumber () {
     control()
 }
 
-// FUNZIONE CHE RIMUOVE I NUMERI STAMPATI
-function removeNumber () {
-    numeri.innerHTML = '';
-    clearInterval(timerRimozione);
-    console.log('cleartimer')
-}
-
-// FUNZIONE CHE STAMPA I NUMERI 
-function printNumber() {
-    numeri.innerHTML = 'I numeri da ricordare sono: ' + randomNumber
-}
-
-// FUNZIONE CHE GENERA NUMERI RANDOM 
-function getRndInteger(min, max) {
-    return Math.floor(Math.random() * (max - min) ) + min;
-}
-
-// FUNZIONE CHE METTE IN ARRAY NUMERI RANDOM UNICI
-function generateNumber(num) {
-    randomNumber = []
-    for (let i = 0; randomNumber.length < num; i++) {
-        let random = getRndInteger(1, 100)
-
-        if (!randomNumber.includes(random)) {
-            randomNumber.push(random)
+// FUNZIONE CHE CONTROLLA SE I NUMERI INSERITI SONO GIUSTI
+function control() {
+    for(let i = 0; i <= arrUser.length; i++) {
+        if (randomNumber.includes(arrUser[i])) {
+            indovinati.push(arrUser[i])
         }
     }
+    console.log(indovinati)
+    numeri.innerHTML = 'Hai indovinato ' + indovinati.length + 'numeri: ' + indovinati;
 }
