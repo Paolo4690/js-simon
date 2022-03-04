@@ -63,11 +63,11 @@ function askNumber () {
 
 // FUNZIONE CHE CONTROLLA SE I NUMERI INSERITI SONO GIUSTI
 function control() {
-    for(let i = 0; i <= arrUser.length; i++) {
-        if (randomNumber.includes(arrUser[i])) {
+    for(let i = 0; i < arrUser.length; i++) {
+        if (randomNumber[i] == arrUser[i]) {
             indovinati.push(arrUser[i])
         }
     }
     console.log(indovinati)
-    numeri.innerHTML = 'Hai indovinato ' + indovinati.length + 'numeri: ' + indovinati;
+    numeri.innerHTML = 'Hai indovinato ' + indovinati.length  + ' numeri: ' + indovinati;
 }
