@@ -3,26 +3,36 @@
 // Da lì parte un timer di 30 secondi. (Cioè lasciate i numeri visibili per 30 secondi allo scadere dei quali li nascondete)
 // Dopo aver nascosto i numeri chiedete all'utente (con dei prompt) di inserirli in ordine, uno alla volta.
 // Dopo che sono stati inseriti i 5 numeri, il software dice quanti e quali dei numeri da indovinare sono stati individuati.
-const numeri = document.querySelector('#numeri')
-let getArrayNumber = []
-let arrUser = []
+const numeri = document.querySelector('#numeri');
+let randomNumber = [];
+let arrUser = [];
+let indovinati = [];
 
-let tempoAttesaRimozione = 5000
-let timerAttesaPrompt = 8000
+let tempoAttesaRimozione = 5000;
+let timerAttesaPrompt = 8000;
 
 generateNumber(5);
-console.log(getArrayNumber)
-printNumber()
-let timerRimozione = setInterval(removeNumber, tempoAttesaRimozione)
-setTimeout(askNumber, timerAttesaPrompt)
+console.log(randomNumber);
+printNumber();
+let timerRimozione = setInterval(removeNumber, tempoAttesaRimozione);
+setTimeout(askNumber, timerAttesaPrompt);
 
 
 
+// FUNZIONE CHE CONTROLLA SE I NUMERI INSERITI SONO GIUSTI
+function control() {
+    for(let i = 0; i <= arrUser.length; i++) {
+        if (randomNumber.includes(arrUser[i])) {
+            indovinati.push(arrUser[i])
+        }
+    }
+    console.log(indovinati)
+    numeri.innerHTML = 'Hai indovinato ' + indovinati.length + 'numeri: ' + indovinati;
+}
 
-
-// FUNZIONE CHE CHIEDE I NUMERI ALL'UTENTE E LI SALVA IN ARRAY
+// FUNZIONE CHE CHIEDE I NUMERI ALL'UTENTE E LI CONTROLLA
 function askNumber () {
-    for(let i = 0; arrUser.length < getArrayNumber.length; i++) {
+    for(let i = 0; arrUser.length < randomNumber.length; i++) {
         let ask = parseInt(prompt('inserisci i numeri nella sequenza vista, numero ' + (i+1) + ':'))
         if (arrUser.includes(ask)) {
             ask = parseInt(prompt('I numeri inseriti devono essere diversi, reinserisci il numero ' + (i+1) + ':'))
@@ -30,6 +40,7 @@ function askNumber () {
         arrUser.push(ask)
     }
     console.log(arrUser)
+    control()
 }
 
 // FUNZIONE CHE RIMUOVE I NUMERI STAMPATI
@@ -41,7 +52,7 @@ function removeNumber () {
 
 // FUNZIONE CHE STAMPA I NUMERI 
 function printNumber() {
-    numeri.innerHTML = 'I numeri da ricordare sono: ' + getArrayNumber
+    numeri.innerHTML = 'I numeri da ricordare sono: ' + randomNumber
 }
 
 // FUNZIONE CHE GENERA NUMERI RANDOM 
@@ -51,12 +62,12 @@ function getRndInteger(min, max) {
 
 // FUNZIONE CHE METTE IN ARRAY NUMERI RANDOM UNICI
 function generateNumber(num) {
-    getArrayNumber = []
-    for (let i = 0; getArrayNumber.length < num; i++) {
+    randomNumber = []
+    for (let i = 0; randomNumber.length < num; i++) {
         let random = getRndInteger(1, 100)
 
-        if (!getArrayNumber.includes(random)) {
-            getArrayNumber.push(random)
+        if (!randomNumber.includes(random)) {
+            randomNumber.push(random)
         }
     }
 }
